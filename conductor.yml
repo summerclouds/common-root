@@ -20,7 +20,7 @@ import:
   - file:lifecycles.yml
 
 projects:
-  - name: common-parent
+  - name: parent
     path: common-parent
     labels:
       group:
@@ -30,7 +30,7 @@ projects:
       order: 0
     properties:
       gitUrl: https://github.com/summerclouds/common-parent.git
-  - name: common-bom
+  - name: bom
     path: common-bom
     labels:
       group:
@@ -48,7 +48,7 @@ projects:
       property.common-security-spring-boot-starter: common-security.version
       property.common-sleuth-spring-boot-starter: common-sleuth.version
       property.common-crypt-spring-boot-starter: common-crypt.version
-  - name: common-junit
+  - name: junit
     path: common-junit
     labels:
       group:
@@ -60,21 +60,23 @@ projects:
       order: 10
     properties:
       gitUrl: https://github.com/summerclouds/common-junit.git
-  - name: common-core-spring-boot-starter
+  - name: core
     path: common-core-spring-boot-starter
     labels:
       group:
         - prepare
         - jar
         - deploy
+        - bom
       order: 20
       dependencies:
         - parent
-        - common-junit
+        - junit
+        - bom
     properties:
       gitUrl: https://github.com/summerclouds/common-core-spring-boot-starter.git
       property.common-bom: summerclouds.bom.version
-  - name: common-db-spring-boot-starter
+  - name: db
     path: common-db-spring-boot-starter
     labels:
       group:
@@ -83,11 +85,11 @@ projects:
         - deploy
       order: 30
       dependencies:
-        - common-core-spring-boot-starter
+        - core
     properties:
       gitUrl: https://github.com/summerclouds/common-db-spring-boot-starter.git
       property.common-bom: summerclouds.bom.version
-  - name: common-rest-spring-boot-starter
+  - name: rest
     path: common-rest-spring-boot-starter
     labels:
       group:
@@ -96,12 +98,12 @@ projects:
         - deploy
       order: 40
       dependencies:
-        - common-core-spring-boot-starter
+        - core
     properties:
       gitUrl: https://github.com/summerclouds/common-rest-spring-boot-starter.git
       property.common-bom: summerclouds.bom.version
-  - name: common-security-spring-boot-starter
-    path: ../common-security-spring-boot-starter
+  - name: security
+    path: common-security-spring-boot-starter
     labels:
       group:
         - prepare
@@ -109,11 +111,11 @@ projects:
         - deploy
       order: 50
       dependencies:
-        - common-core-spring-boot-starter
+        - core
     properties:
       gitUrl: https://github.com/summerclouds/common-security-spring-boot-starter.git
       property.common-bom: summerclouds.bom.version
-  - name: common-sleuth-spring-boot-starter
+  - name: sleuth
     path: common-sleuth-spring-boot-starter
     labels:
       group:
@@ -122,11 +124,11 @@ projects:
         - deploy
       order: 60
       dependencies:
-        - common-core-spring-boot-starter
+        - core
     properties:
       gitUrl: https://github.com/summerclouds/common-sleuth-spring-boot-starter.git
       property.common-bom: summerclouds.bom.version
-  - name: common-crypt-spring-boot-starter
+  - name: crypt
     path: common-crypt-spring-boot-starter
     labels:
       group:
@@ -135,7 +137,7 @@ projects:
         - deploy
       order: 70
       dependencies:
-        - common-core-spring-boot-starter
+        - core
     properties:
       gitUrl: https://github.com/summerclouds/common-crypt-spring-boot-starter.git
       property.common-bom: summerclouds.bom.version
