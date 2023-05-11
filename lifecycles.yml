@@ -34,15 +34,19 @@ lifecycles:
         properties:
           prompt: Confirm
           message: |
-            Check if GIT must be commited before, if not
-            press y to process deployment.
+            Check if GIT have to be commited before, if
+            everything is commited than press y to process deployment.
 
       - title: Git Reset
         target: con.git
         arguments:
-          - "reset --hard"
+          - "reset"
+          - "--hard"
+      - title: Git Pull
+        target: con.git
+        arguments:
           - "pull"
-
+          -
       # #####################
       # New Version
       # #####################
