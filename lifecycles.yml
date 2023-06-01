@@ -46,7 +46,6 @@ lifecycles:
         target: con.git
         arguments:
           - "pull"
-          -
       # #####################
       # New Version
       # #####################
@@ -66,7 +65,8 @@ lifecycles:
       - title: Beautify source code
         target: con.maven
         arguments:
-          - "git-code-format:format-code '-DglobPattern=**/*'"
+          - git-code-format:format-code
+          - "-DglobPattern=**/*"
           - "-P release"
         selector:
           version.changed: true
@@ -168,7 +168,7 @@ lifecycles:
         target: con.maven
         arguments:
           - deploy
-          - '-P release'
+          - "-P release"
         sort: order
         selector:
           group:
@@ -183,21 +183,43 @@ lifecycles:
       - title: Save version history
         target: con.persistNewVersions
 
-      - title: Git Commit
+      - title: Git Add
         target: con.git
         arguments:
-          - 'add -A'
-          - 'commit -m "${project.version}"'
+          - add
+          - "-A"
         selector:
           version.changed: true
         properties:
           ignoreReturnCode: true
 
+      - title: Git Commit
+        target: con.git
+        arguments:
+          - commit
+          - "-m"
+          - "${project.version}"
+        selector:
+          version.changed: true
+        properties:
+          ignoreReturnCode: true
+          
       - title: Git New Tag
         target: con.git
         arguments:
-          - 'tag "${project.version}"'
-          - 'push origin --tags'
+          - tag 
+          - "${project.version}"
+        selector:
+          version.changed: true
+        properties:
+          ignoreReturnCode: true
+
+      - title: Git Push New Tag
+        target: con.git
+        arguments:
+          - push
+          - origin
+          - --tags
         selector:
           version.changed: true
         properties:
@@ -294,11 +316,30 @@ lifecycles:
       # #####################
       # Commit Snapshot
       # #####################
-      - title: Git Commit And Push
+      - title: Git Add Snapshot
         target: con.git
         arguments:
-          - 'add -A'
-          - 'commit -m "SNAPSHOT"'
+          - add
+          - -A
+        selector:
+          version.changed: true
+        properties:
+          ignoreReturnCode: true
+
+      - title: Git Commit Snapshot
+        target: con.git
+        arguments:
+          - commit
+          - -m
+          - "SNAPSHOT"
+        selector:
+          version.changed: true
+        properties:
+          ignoreReturnCode: true
+
+      - title: Git Push Snapshot
+        target: con.git
+        arguments:
           - push
         selector:
           version.changed: true
@@ -310,7 +351,8 @@ lifecycles:
       - title: Beautify source code
         target: con.maven
         arguments:
-          - "git-code-format:format-code '-DglobPattern=**/*'"
+          - git-code-format:format-code
+          - "-DglobPattern=**/*"
         selector:
           group: prepare
 
